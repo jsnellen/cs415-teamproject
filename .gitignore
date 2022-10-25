@@ -2,7 +2,6 @@ build/
 dist/
 nbproject/
 build.xml
-context.xml
 manifest.mf
 MANIFEST.MF
 .DS_Store
