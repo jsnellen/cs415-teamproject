@@ -1,0 +1,11 @@
+build/
+dist/
+nbproject/
+build.xml
+manifest.mf
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
