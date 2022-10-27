@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/cs415-teamproject"/>
+<Context path="/cs415-teamproject">
 
-<Resource name="jdbc/db_pool" type="javax.sql.DataSource"
+    <Resource name="jdbc/db_pool" type="javax.sql.DataSource"
               driverClassName="com.mysql.cj.jdbc.Driver"
               username="cs415_user" password="CS415!user" useSSL="false"
               auth="Container" autoReconnect="true"
@@ -10,7 +10,7 @@
               maxActive="100" maxIdle="30" maxWait="10000"  
               removeAbandoned="true" removeAbandonedTimeout="60"
               testOnBorrow="true" testOnReturn="false" 
-              url="jdbc:mysql://localhost:3306/cs415_team_project_db_v2?zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
+              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
 
     <Resource name="jdbc/auth" type="javax.sql.DataSource"
               driverClassName="com.mysql.cj.jdbc.Driver"
@@ -21,7 +21,7 @@
               maxActive="100" maxIdle="30" maxWait="10000"
               removeAbandoned="true" removeAbandonedTimeout="60"
               testOnBorrow="true" testOnReturn="false"
-              url="jdbc:mysql://localhost:3306/cs415_team_project_db_v2?zeroDateTimeBehavior=convertToNull&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
+              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=convertToNull&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
     
     <Realm dataSourceName="jdbc/auth" localDataSource="true"
            className="org.apache.catalina.realm.DataSourceRealm"
@@ -33,3 +33,4 @@
         
     </Realm>
 
+</Context>
