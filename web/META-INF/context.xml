@@ -14,7 +14,7 @@
 
     <Resource name="jdbc/auth" type="javax.sql.DataSource"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              username="cs415_auth" password="CS415!auth" useSSL="false"
+              username="cs415_auth" password="EX1!auth" useSSL="false"
               auth="Container" autoReconnect="true"
               validationQuery="SELECT 1" validationQueryTimeout="-1"
               initialSize="10" logAbandoned="true"
