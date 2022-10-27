@@ -28,7 +28,7 @@
            userTable="login" userNameCol="username" userCredCol="password"
            userRoleTable="user_to_role" roleNameCol="rolename">
         
-        <CredentialHandler algorithm="sha2"
+        <CredentialHandler algorithm="sha-512"
                            className="org.apache.catalina.realm.MessageDigestCredentialHandler"/>
         
     </Realm>
