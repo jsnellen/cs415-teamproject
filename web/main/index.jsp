@@ -13,6 +13,7 @@
     </head>
     
     <body>
+        <p>Welcome to the CS 415 Team Project</p>
         
         <p>
             <input type="button" value="Logout" onclick="window.open('<%= request.getContextPath() %>/main/logout.jsp', '_self', false);" />
