@@ -10,7 +10,7 @@
               maxActive="100" maxIdle="30" maxWait="10000"  
               removeAbandoned="true" removeAbandonedTimeout="60"
               testOnBorrow="true" testOnReturn="false" 
-              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;allowMultiQueries=true&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
+              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
 
     <Resource name="jdbc/auth" type="javax.sql.DataSource"
               driverClassName="com.mysql.cj.jdbc.Driver"
