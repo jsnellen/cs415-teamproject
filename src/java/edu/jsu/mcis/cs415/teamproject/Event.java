@@ -8,13 +8,13 @@ import java.util.Map;
 
 public class Event {
     
-    private final Integer id;
+    private Integer id;
     
-    private final String description;
-    private final String minute, hour, dayOfMonth, monthOfYear, dayOfWeek, year;
+    private String description;
+    private String minute, hour, dayOfMonth, monthOfYear, dayOfWeek, year;
     
-    private final Long duration;
-    private final ZonedDateTime utcActive, utcInactive;
+    private Long duration;
+    private ZonedDateTime utcActive, utcInactive;
 
     public Event(Map<String, String> p) {
         
@@ -122,6 +122,50 @@ public class Event {
 
     public ZonedDateTime getUtcInactive() {
         return utcInactive;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setMinute(String minute) {
+        this.minute = minute;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public void setDayOfMonth(String dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+
+    public void setMonthOfYear(String monthOfYear) {
+        this.monthOfYear = monthOfYear;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public void setUtcActive(ZonedDateTime utcActive) {
+        this.utcActive = utcActive;
+    }
+
+    public void setUtcInactive(ZonedDateTime utcInactive) {
+        this.utcInactive = utcInactive;
     }
     
 }

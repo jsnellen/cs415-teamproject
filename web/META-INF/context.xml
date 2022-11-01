@@ -1,36 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/cs415-teamproject">
-
-    <Resource name="jdbc/db_pool" type="javax.sql.DataSource"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              username="cs415_user" password="CS415!user" useSSL="false"
-              auth="Container" autoReconnect="true"
-              validationQuery="SELECT 1" validationQueryTimeout="-1"
-              initialSize="10" logAbandoned="true"
-              maxActive="100" maxIdle="30" maxWait="10000"  
-              removeAbandoned="true" removeAbandonedTimeout="60"
-              testOnBorrow="true" testOnReturn="false" 
-              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
-
-    <Resource name="jdbc/auth" type="javax.sql.DataSource"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              username="cs415_auth" password="EX1!auth" useSSL="false"
-              auth="Container" autoReconnect="true"
-              validationQuery="SELECT 1" validationQueryTimeout="-1"
-              initialSize="10" logAbandoned="true"
-              maxActive="100" maxIdle="30" maxWait="10000"
-              removeAbandoned="true" removeAbandonedTimeout="60"
-              testOnBorrow="true" testOnReturn="false"
-              url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" />
-    
-    <Realm dataSourceName="jdbc/auth" localDataSource="true"
-           className="org.apache.catalina.realm.DataSourceRealm"
-           userTable="login" userNameCol="username" userCredCol="password"
-           userRoleTable="user_to_role" roleNameCol="rolename">
-        
-        <CredentialHandler algorithm="sha-512"
-                           className="org.apache.catalina.realm.MessageDigestCredentialHandler"/>
-        
-    </Realm>
-
+  <Resource auth="Container" autoReconnect="true" driverClassName="com.mysql.cj.jdbc.Driver" initialSize="10" logAbandoned="true" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/db_pool" password="CS415!user" removeAbandoned="true" removeAbandonedTimeout="60" testOnBorrow="true" testOnReturn="false" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" useSSL="false" username="cs415_user" validationQuery="SELECT 1" validationQueryTimeout="-1"/>
+  <Resource auth="Container" autoReconnect="true" driverClassName="com.mysql.cj.jdbc.Driver" initialSize="10" logAbandoned="true" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/auth" password="EX1!auth" removeAbandoned="true" removeAbandonedTimeout="60" testOnBorrow="true" testOnReturn="false" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/cs415_team_project_db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;serverTimezone=America/Chicago&amp;allowPublicKeyRetrieval=true" useSSL="false" username="cs415_auth" validationQuery="SELECT 1" validationQueryTimeout="-1"/>
+  <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/auth" localDataSource="true" roleNameCol="rolename" userCredCol="password" userNameCol="username" userRoleTable="user_to_role" userTable="login">
+    <CredentialHandler algorithm="sha-512" className="org.apache.catalina.realm.MessageDigestCredentialHandler"/>
+  </Realm>
 </Context>

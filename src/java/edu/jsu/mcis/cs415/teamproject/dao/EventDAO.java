@@ -180,6 +180,8 @@ public class EventDAO {
     }
     
     public boolean update(Event event) throws DAOException  {
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         boolean result = false;
 
@@ -197,8 +199,15 @@ public class EventDAO {
             ps.setString(6, event.getDayOfWeek());
             ps.setString(7, event.getYear());
             ps.setString(8, Long.toString(event.getDuration()));
-            ps.setString(9, event.getUtcActive().toString());
-            ps.setString(10, event.getUtcInactive().toString());
+            ps.setString(9, dtf.format(event.getUtcActive()));
+            
+            if (event.getUtcInactive() != null) {
+                ps.setString(10, dtf.format(event.getUtcInactive()));
+            }
+            else {
+                ps.setTimestamp(10, null);
+            }
+            
             ps.setInt(11, event.getId());
             
             int rows = ps.executeUpdate();

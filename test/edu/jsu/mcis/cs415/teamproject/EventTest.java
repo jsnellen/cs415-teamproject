@@ -107,4 +107,79 @@ public class EventTest {
 
     }
     
+    @Test
+    public void test3CreateInsertUpdateDeleteEvent() {
+        
+        EventDAO dao = daoFactory.getEventDAO();
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        String expected_original = "Test CreateInsertUpdateDeleteEventOriginal\t0\t0\t*\t10\t0\t*\t30\t2022-10-01 00:00:00\t(none)";
+        String expected_update = "Test CreateInsertUpdateDeleteEventUpdate\t30\t12\t15\t11\t*\t2023\t60\t2022-10-31 23:59:59\t2022-11-30 23:59:59";
+        
+        /* Create New Event Object */
+        
+        ZonedDateTime active_original = ZonedDateTime.of(2022, 10, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime active_update = ZonedDateTime.of(2022, 10, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive_update = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC"));
+        
+        HashMap<String, String> params = new HashMap<>();
+        
+        params.put("description", "Test CreateInsertUpdateDeleteEventOriginal");
+        params.put("minute", Integer.toString(0));
+        params.put("hour", Integer.toString(0));
+        params.put("day_of_month", "*");
+        params.put("month_of_year", Integer.toString(10));
+        params.put("day_of_week", "0");
+        params.put("year", "*");
+        params.put("duration", Long.toString(30));
+        params.put("utc_active", dtf.format(active_original));
+        params.put("utc_inactive", null);
+        
+        /* Check Event Construction */
+        
+        Event e1 = new Event(params);
+        
+        assertEquals(expected_original, e1.toString());
+        
+        /* Check Event Insertion and Retrieval */
+        
+        int id = dao.create(e1);
+        System.err.println("New Event ID: " + id);
+        
+        Event e2 = dao.find(id);
+        
+        assertEquals(e1.toString(), e2.toString());
+        
+        /* Check Event Update and Retrieval */
+        
+        e2.setDescription("Test CreateInsertUpdateDeleteEventUpdate");
+        e2.setMinute(Integer.toString(30));
+        e2.setHour(Integer.toString(12));
+        e2.setDayOfMonth(Integer.toString(15));
+        e2.setMonthOfYear(Integer.toString(11));
+        e2.setDayOfWeek("*");
+        e2.setYear("2023");
+        e2.setDuration(60L);
+        e2.setUtcActive(active_update);
+        e2.setUtcInactive(inactive_update);
+        
+        assertEquals(expected_update, e2.toString());
+        
+        dao.update(e2);
+        
+        Event e3 = dao.find(id);
+        
+        assertEquals(e2.toString(), e3.toString());
+        
+        /* Check Event Deletion */
+        
+        System.err.println("Deleting Event ID: " + id);
+        
+        boolean result1 = dao.delete(id);
+        
+        assertEquals(true, result1);
+        
+    }
+    
 }
