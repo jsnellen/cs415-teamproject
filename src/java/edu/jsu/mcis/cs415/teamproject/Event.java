@@ -1,10 +1,20 @@
 package edu.jsu.mcis.cs415.teamproject;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Event {
     
@@ -15,6 +25,16 @@ public class Event {
     
     private Long duration;
     private ZonedDateTime utcActive, utcInactive;
+    
+    private final int MIN_MINUTE = 0, MAX_MINUTE = 59;
+    private final int MIN_HOUR = 0, MAX_HOUR = 23;
+    private final int MIN_DAY_OF_MONTH = 1, MAX_DAY_OF_MONTH = 31;
+    private final int MIN_MONTH = 1, MAX_MONTH = 12;
+    private final int MIN_DAY_OF_WEEK = 1, MAX_DAY_OF_WEEK = 7;
+    private final int MIN_YEAR = 1970, MAX_YEAR = 2099;
+    
+    private final String SEP_STEP = "/", SEP_RANGE = "-", SEP_LIST = ",";
+    private final String SEP_DOW_ORDINAL = "#", WILDCARD = "*", LAST_DOW = "L";
 
     public Event(Map<String, String> p) {
         
@@ -56,7 +76,7 @@ public class Event {
         }
         
     }
-
+    
     @Override
     public String toString() {
         
@@ -79,7 +99,164 @@ public class Event {
         
     }
     
+    public ArrayList<CalendarEvent> toCalendarEventList(ZonedDateTime day) {
+        
+        ArrayList<CalendarEvent> calendarEvents = new ArrayList<>();
+        
+        day = day.withHour(0).withMinute(0).withSecond(0).withNano(0);
+        
+        Set<Integer> years = expand(MIN_YEAR, MAX_YEAR, year);
+        Set<Integer> months = expand(MIN_MONTH, MAX_MONTH, monthOfYear);
+        Set<Integer> days = expand(day, dayOfMonth, dayOfWeek);
+        Set<Integer> hours = expand(MIN_HOUR, MAX_HOUR, hour);
+        Set<Integer> minutes = expand(MIN_MINUTE, MAX_MINUTE, minute);
+        
+        if (years.contains(day.getYear())
+                && months.contains(day.getMonthValue())
+                && days.contains(day.getDayOfMonth())) {
+            
+            for (int h : hours) {
+                
+                for (int m : minutes) {
+                    
+                    ZonedDateTime start = day.withHour(h).withMinute(m);
+                    ZonedDateTime stop = start.plus(duration, ChronoUnit.MINUTES);
+                    
+                    calendarEvents.add(new CalendarEvent(id, description, start, stop));
+                    
+                }
+                
+            }
+            
+        }
+        
+        return calendarEvents;
+        
+    }
+    
+    private Set expand(int min, int max, String expression) {
+        
+        HashSet<Integer> set = new HashSet<>();
+        
+        String[] parts = expression.split(SEP_LIST + "+");
+        
+        for (String part : parts) {
+            
+            int step = 1;
+            part = part.trim();
+            
+            if (part.contains(SEP_STEP)) {
+                int index = part.indexOf(SEP_STEP);
+                step = Integer.parseInt(part.substring(index + 1).trim());
+                part = part.substring(0, index).trim();
+            }
+            
+            if (part.contains(WILDCARD)) {
+                set.addAll(getSequence(min, max, step));
+            }
+            
+            else if (part.contains(SEP_RANGE)) {
+                int index = part.indexOf(SEP_RANGE);
+                int begin = Integer.parseInt(part.substring(0, index).trim());
+                int end = Integer.parseInt(part.substring(index + 1).trim());
+                set.addAll(getSequence(Math.max(min, begin), Math.min(max, end), step));
+            }
+            
+            else if (part.matches("^[0-9]+$")) {
+                int val = Integer.parseInt(part);
+                if ((val >= min) && (val <= max)) {
+                    set.add(val);
+                }
+            }
+            
+        }
+        
+        return set;
+        
+    }
+    
+    private Set expand(ZonedDateTime zdt, String domExpression, String dowExpression) {
 
+        int daysInMonth = YearMonth.of(zdt.getYear(), zdt.getMonth()).lengthOfMonth();
+        Set dom = expand(MIN_DAY_OF_MONTH, daysInMonth, domExpression);
+        
+        // get day-of-week set
+        
+        HashSet<Integer> weekdays = new HashSet<>();
+        HashSet<Integer> dow = new HashSet<>();
+        
+        String[] parts = dowExpression.split(SEP_LIST + "+");
+        
+        for (String part : parts) {
+
+            part = part.trim();
+            
+            if (part.contains(SEP_DOW_ORDINAL)) {
+                int index = part.indexOf(SEP_DOW_ORDINAL);
+                DayOfWeek day = DayOfWeek.values()[Integer.parseInt(part.substring(0, index).trim()) - 1];
+                int ordinal = Integer.parseInt(part.substring(index + 1).trim());
+                dow.add(zdt.with(TemporalAdjusters.dayOfWeekInMonth(ordinal, day)).getDayOfMonth());
+            }
+            
+            else if (part.contains(LAST_DOW)) {
+                int index = part.indexOf(LAST_DOW);
+                DayOfWeek day = DayOfWeek.values()[Integer.parseInt(part.substring(0, index).trim()) - 1];
+                dow.add(zdt.with(TemporalAdjusters.lastInMonth(day)).getDayOfMonth());
+            }
+            
+            else {
+                weekdays.addAll(expand(MIN_DAY_OF_WEEK, MAX_DAY_OF_WEEK, part));
+            }
+            
+        }
+        
+        for (Integer e : weekdays) {
+            DayOfWeek day = DayOfWeek.values()[e - 1];
+            dow.addAll(getWeekdaysInMonth(zdt, day));
+        }
+        
+        boolean domRestricted = !(domExpression.contains(WILDCARD));
+        boolean dowRestricted = !(dowExpression.contains(WILDCARD));
+        
+        if (domRestricted && dowRestricted) {
+            dom.addAll(dow);
+        }
+        else {
+            dom.retainAll(dow);
+        }
+        
+        return dom;
+        
+    }
+    
+    private Set getWeekdaysInMonth(ZonedDateTime zdt, DayOfWeek weekday) {
+        
+        HashSet<Integer> set = new HashSet<>();
+        
+        ZonedDateTime zdt_this = zdt.with(TemporalAdjusters.firstDayOfMonth());
+        zdt_this = zdt_this.withHour(0).withMinute(0).withSecond(0).withNano(0);
+        
+        ZonedDateTime zdt_next = zdt_this.plusMonths(1);
+        
+        zdt_this = zdt_this.with(TemporalAdjusters.nextOrSame(weekday));
+        
+        while (zdt_this.isBefore(zdt_next)) {
+            set.add(zdt_this.getDayOfMonth());
+            zdt_this = zdt_this.with(TemporalAdjusters.next(weekday));
+        }
+        
+        return set;
+        
+    }
+    
+    private List getSequence(int min, int max, int step) {
+        
+        List<Integer> values = new ArrayList(((max - min) / step) + 1);
+        for(int i = min; i <= max; values.add(i), i += step);
+        return values;
+        
+    }
+    
     public Integer getId() {
         return id;
     }
