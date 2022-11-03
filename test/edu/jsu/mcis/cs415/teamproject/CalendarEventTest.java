@@ -59,7 +59,7 @@ public class CalendarEventTest {
             
         }
         
-        assertEquals(true, true);
+        assertEquals(24, events.size());
 
     }
     
@@ -97,7 +97,7 @@ public class CalendarEventTest {
             
         }
         
-        assertEquals(true, true);
+        assertEquals(2, events.size());
 
     }
     
@@ -135,7 +135,7 @@ public class CalendarEventTest {
             
         }
         
-        assertEquals(true, true);
+        assertEquals(1, events.size());
 
     }
     
@@ -173,7 +173,7 @@ public class CalendarEventTest {
             
         }
         
-        assertEquals(true, true);
+        assertEquals(1, events.size());
 
     }
     
