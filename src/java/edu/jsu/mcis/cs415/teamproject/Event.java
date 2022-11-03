@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Event {
     
@@ -134,16 +132,30 @@ public class Event {
         
     }
     
+    /*
+        Expand an Event expression into a numeric collection of values.  (Useful
+        for expanding a list of years, months, days of the month, hours, minutes,
+        or days of the week.)
+    */
+    
     private Set expand(int min, int max, String expression) {
         
         HashSet<Integer> set = new HashSet<>();
         
+        // split expression into parts corresponding to individual items
+        
         String[] parts = expression.split(SEP_LIST + "+");
+        
+        // process individual list items
         
         for (String part : parts) {
             
+            // set deafult step value; trim any leading/trailing whitespace
+            
             int step = 1;
             part = part.trim();
+            
+            // if a different step value was specified, use it instead
             
             if (part.contains(SEP_STEP)) {
                 int index = part.indexOf(SEP_STEP);
@@ -151,9 +163,13 @@ public class Event {
                 part = part.substring(0, index).trim();
             }
             
+            // if item is a wildcard, expand to full range of values
+            
             if (part.contains(WILDCARD)) {
                 set.addAll(getSequence(min, max, step));
             }
+            
+            // if item is a range, expand to the specified range
             
             else if (part.contains(SEP_RANGE)) {
                 int index = part.indexOf(SEP_RANGE);
@@ -161,6 +177,8 @@ public class Event {
                 int end = Integer.parseInt(part.substring(index + 1).trim());
                 set.addAll(getSequence(Math.max(min, begin), Math.min(max, end), step));
             }
+            
+            // if item is a single value, add value to collection (if within range)
             
             else if (part.matches("^[0-9]+$")) {
                 int val = Integer.parseInt(part);
@@ -171,25 +189,41 @@ public class Event {
             
         }
         
+        // return collection
+        
         return set;
         
     }
+    
+    /*
+        Expand a pair of Event day-of-month and day-of-week expressions into a
+        numeric collection of values.  (Useful for combining day-of-month and
+        day-of-week expressions into a corresponding list of days of the month.)
+    */
     
     private Set expand(ZonedDateTime zdt, String domExpression, String dowExpression) {
 
         int daysInMonth = YearMonth.of(zdt.getYear(), zdt.getMonth()).lengthOfMonth();
         Set dom = expand(MIN_DAY_OF_MONTH, daysInMonth, domExpression);
         
-        // get day-of-week set
+        // create sets for days-of-week (dow) and corresponding calendar days (weekdays)
         
         HashSet<Integer> weekdays = new HashSet<>();
         HashSet<Integer> dow = new HashSet<>();
         
+        // split days-of-week expression into parts corresponding to individual items
+        
         String[] parts = dowExpression.split(SEP_LIST + "+");
         
+        // process individual list items
+        
         for (String part : parts) {
+            
+            // trim whitespace
 
             part = part.trim();
+            
+            // if item specifies an ordinal weekday number, add corresponding day-of-month to set
             
             if (part.contains(SEP_DOW_ORDINAL)) {
                 int index = part.indexOf(SEP_DOW_ORDINAL);
@@ -198,11 +232,15 @@ public class Event {
                 dow.add(zdt.with(TemporalAdjusters.dayOfWeekInMonth(ordinal, day)).getDayOfMonth());
             }
             
+            // if item specifies a last weekday number, add corresponding day-of-month to set
+            
             else if (part.contains(LAST_DOW)) {
                 int index = part.indexOf(LAST_DOW);
                 DayOfWeek day = DayOfWeek.values()[Integer.parseInt(part.substring(0, index).trim()) - 1];
                 dow.add(zdt.with(TemporalAdjusters.lastInMonth(day)).getDayOfMonth());
             }
+            
+            // if item contains an ordinary expression, expand to collection of days-of-week
             
             else {
                 weekdays.addAll(expand(MIN_DAY_OF_WEEK, MAX_DAY_OF_WEEK, part));
@@ -210,13 +248,19 @@ public class Event {
             
         }
         
+        // convert days-of-week to corresponding days-of-month; add to collection
+        
         for (Integer e : weekdays) {
             DayOfWeek day = DayOfWeek.values()[e - 1];
             dow.addAll(getWeekdaysInMonth(zdt, day));
         }
         
+        // is both DOM and DOW restricted?
+        
         boolean domRestricted = !(domExpression.contains(WILDCARD));
         boolean dowRestricted = !(dowExpression.contains(WILDCARD));
+        
+        // if so, take union of both sets; if not, take intersection of both sets
         
         if (domRestricted && dowRestricted) {
             dom.addAll(dow);
@@ -225,9 +269,15 @@ public class Event {
             dom.retainAll(dow);
         }
         
+        // return collection
+        
         return dom;
         
     }
+    
+    /*
+        Expand a specific day of the week to the corresponding days of the month.
+    */
     
     private Set getWeekdaysInMonth(ZonedDateTime zdt, DayOfWeek weekday) {
         
@@ -248,6 +298,11 @@ public class Event {
         return set;
         
     }
+    
+    /*
+        Generates a sequence of values from "min" to "max" (inclusive); useful
+        for field expansion.
+    */
     
     private List getSequence(int min, int max, int step) {
         
