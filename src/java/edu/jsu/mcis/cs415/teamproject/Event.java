@@ -97,6 +97,23 @@ public class Event {
         
     }
     
+    public ArrayList<CalendarEvent> toCalendarEventList(ZonedDateTime begin, ZonedDateTime end) {
+        
+        ArrayList<CalendarEvent> list = new ArrayList<>();
+        
+        ZonedDateTime current = begin;
+
+        while (!end.isBefore(current)) {
+            
+            list.addAll(toCalendarEventList(current));
+            current = current.plus(1, ChronoUnit.DAYS);
+            
+        }
+
+        return list;
+        
+    }
+    
     public ArrayList<CalendarEvent> toCalendarEventList(ZonedDateTime day) {
         
         ArrayList<CalendarEvent> calendarEvents = new ArrayList<>();

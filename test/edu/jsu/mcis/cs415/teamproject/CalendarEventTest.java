@@ -177,5 +177,44 @@ public class CalendarEventTest {
 
     }
     
+    @Test
+    public void test5GetCalendarEvent() {
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        ZonedDateTime begin = ZonedDateTime.of(2022, 11, 7, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime end = ZonedDateTime.of(2022, 11, 11, 0, 0, 0, 0, ZoneId.of("UTC"));
+        
+        ZonedDateTime active = ZonedDateTime.of(2022, 11, 7, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 11, 23, 59, 59, 0, ZoneId.of("UTC"));
+        
+        HashMap<String, String> params = new HashMap<>();
+        
+        params.put("description", "Test Event (2022-11-07 through 2022-11-11, 12:00, 30 minutes)");
+        params.put("minute", Integer.toString(00));
+        params.put("hour", Integer.toString(12));
+        params.put("day_of_month", "*");
+        params.put("month_of_year", Integer.toString(11));
+        params.put("day_of_week", "*");
+        params.put("year", Integer.toString(2022));
+        params.put("duration", Long.toString(30));
+        params.put("utc_active", dtf.format(active));
+        params.put("utc_inactive", dtf.format(inactive));
+        
+        Event e1 = new Event(params);
+        
+        ArrayList<CalendarEvent> events = e1.toCalendarEventList(begin, end);
+        
+        System.err.println("test5GetCalendarEvent() Number of Calendar Events: " + events.size());
+        
+        for (CalendarEvent e : events) {
+        
+            System.err.println(e.toString());
+            
+        }
+        
+        assertEquals(1, events.size());
+
+    }
     
 }
