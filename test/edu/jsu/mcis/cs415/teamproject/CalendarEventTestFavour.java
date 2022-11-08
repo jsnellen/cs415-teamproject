@@ -30,7 +30,7 @@ public class CalendarEventTestFavour {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        ZonedDateTime day = ZonedDateTime.of(2017, 10, 26, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime day = ZonedDateTime.of(2017, 10, 28, 0, 0, 0, 0, ZoneId.of("UTC"));
         ZonedDateTime active = ZonedDateTime.of(2017, 10, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
         ZonedDateTime inactive = ZonedDateTime.of(2017, 10, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
         
@@ -153,7 +153,7 @@ public class CalendarEventTestFavour {
         params.put("description", "Test Event (2023-8-23, 09:30, 6 hours)");
         params.put("minute", Integer.toString(30));
         params.put("hour", Integer.toString(9));
-        params.put("day_of_month", "23/25");
+        params.put("day_of_month", "23,25");
         params.put("month_of_year", Integer.toString(8));
         params.put("day_of_week", "*");
         params.put("year", Integer.toString(2023));
