@@ -30,20 +30,20 @@ public class CalendarEventTestFavour {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        ZonedDateTime day = ZonedDateTime.of(2023, 10, 26, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime active = ZonedDateTime.of(2023, 10, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime inactive = ZonedDateTime.of(2023, 10, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
+        ZonedDateTime day = ZonedDateTime.of(2017, 10, 26, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime active = ZonedDateTime.of(2017, 10, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive = ZonedDateTime.of(2017, 10, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
         
         HashMap<String, String> params = new HashMap<>();
         
-        params.put("description", "Test Event (2023-10 At 3:30 & 6:30, 45 mins)");
-        params.put("minute", Integer.toString(30));
-        params.put("hour", "3,6");
-        params.put("day_of_month", "8-12");
+        params.put("description", "Test Event (2017-10-26 - 2017-10-31 At 8:15 AM & 6:15 PM, 15 mins)");
+        params.put("minute", Integer.toString(15));
+        params.put("hour", "8,18");
+        params.put("day_of_month", "26,28");
         params.put("month_of_year", Integer.toString(10));
-        params.put("day_of_week", "2,6");
-        params.put("year", Integer.toString(2023));
-        params.put("duration", Long.toString(45));
+        params.put("day_of_week", "*");
+        params.put("year", Integer.toString(2017));
+        params.put("duration", Long.toString(15));
         params.put("utc_active", dtf.format(active));
         params.put("utc_inactive", dtf.format(inactive));
         
@@ -59,7 +59,7 @@ public class CalendarEventTestFavour {
             
         }
         
-        assertEquals(10, events.size());
+        assertEquals(2, events.size());
 
     }
     
@@ -68,20 +68,20 @@ public class CalendarEventTestFavour {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        ZonedDateTime day = ZonedDateTime.of(2022, 11, 3, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime active = ZonedDateTime.of(2022, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC"));
+        ZonedDateTime day = ZonedDateTime.of(1979, 12, 25, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime active = ZonedDateTime.of(1979, 12, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive = ZonedDateTime.of(1979, 12, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
         
         HashMap<String, String> params = new HashMap<>();
         
-        params.put("description", "Test Event (2022-11, 6:00 and 12:00 Every Thursday, 60 mins)");
+        params.put("description", "Test Event (1979-12-25, All Day Christmas");
         params.put("minute", Integer.toString(0));
-        params.put("hour", "6,12");
+        params.put("hour", Integer.toString(0));
         params.put("day_of_month", "*");
-        params.put("month_of_year", Integer.toString(11));
-        params.put("day_of_week", "4");
-        params.put("year", Integer.toString(2022));
-        params.put("duration", Long.toString(60));
+        params.put("month_of_year", Integer.toString(12));
+        params.put("day_of_week", "*");
+        params.put("year", Integer.toString(1979));
+        params.put("duration", Long.toString(1440));
         params.put("utc_active", dtf.format(active));
         params.put("utc_inactive", dtf.format(inactive));
         
@@ -97,7 +97,7 @@ public class CalendarEventTestFavour {
             
         }
         
-        assertEquals(2, events.size());
+        assertEquals(1, events.size());
 
     }
     
@@ -106,20 +106,20 @@ public class CalendarEventTestFavour {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        ZonedDateTime day = ZonedDateTime.of(2022, 11, 24, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime active = ZonedDateTime.of(2022, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC"));
+        ZonedDateTime day = ZonedDateTime.of(2022, 5, 20, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime active = ZonedDateTime.of(2022, 5, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive = ZonedDateTime.of(2022, 5, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
         
         HashMap<String, String> params = new HashMap<>();
         
-        params.put("description", "Test Event (Thanksgiving Holiday, all day)");
+        params.put("description", "Test Event (Birthday Dinner, 5 PM - 9 PM)");
         params.put("minute", Integer.toString(0));
-        params.put("hour", Integer.toString(0));
+        params.put("hour", Integer.toString(17));
         params.put("day_of_month", "*");
-        params.put("month_of_year", Integer.toString(11));
-        params.put("day_of_week", "4#4");
+        params.put("month_of_year", Integer.toString(5));
+        params.put("day_of_week", "*");
         params.put("year", Integer.toString(2022));
-        params.put("duration", Long.toString(86400)); // 24 hours
+        params.put("duration", Long.toString(240)); // 4 hours
         params.put("utc_active", dtf.format(active));
         params.put("utc_inactive", dtf.format(inactive));
         
@@ -144,20 +144,20 @@ public class CalendarEventTestFavour {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        ZonedDateTime day = ZonedDateTime.of(2022, 11, 3, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime active = ZonedDateTime.of(2022, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
-        ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC"));
+        ZonedDateTime day = ZonedDateTime.of(2023, 8, 23, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime active = ZonedDateTime.of(2023, 8, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime inactive = ZonedDateTime.of(2023, 8, 31, 23, 59, 59, 0, ZoneId.of("UTC"));
         
         HashMap<String, String> params = new HashMap<>();
         
-        params.put("description", "Test Event (2022-11-03, 12:30, 2 hours)");
+        params.put("description", "Test Event (2023-8-23, 09:30, 6 hours)");
         params.put("minute", Integer.toString(30));
-        params.put("hour", Integer.toString(12));
-        params.put("day_of_month", Integer.toString(3));
-        params.put("month_of_year", Integer.toString(11));
+        params.put("hour", Integer.toString(9));
+        params.put("day_of_month", "23/25");
+        params.put("month_of_year", Integer.toString(8));
         params.put("day_of_week", "*");
-        params.put("year", Integer.toString(2022));
-        params.put("duration", Long.toString(120));
+        params.put("year", Integer.toString(2023));
+        params.put("duration", Long.toString(360));
         params.put("utc_active", dtf.format(active));
         params.put("utc_inactive", dtf.format(inactive));
         
