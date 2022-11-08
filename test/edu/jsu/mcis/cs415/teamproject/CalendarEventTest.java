@@ -119,7 +119,7 @@ public class CalendarEventTest {
         params.put("month_of_year", Integer.toString(11));
         params.put("day_of_week", "4#4");
         params.put("year", Integer.toString(2022));
-        params.put("duration", Long.toString(86400)); // 24 hours
+        params.put("duration", Long.toString(1440)); // 24 hours
         params.put("utc_active", dtf.format(active));
         params.put("utc_inactive", dtf.format(inactive));
         
