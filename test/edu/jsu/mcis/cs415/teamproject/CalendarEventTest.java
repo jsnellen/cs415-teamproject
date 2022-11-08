@@ -213,7 +213,7 @@ public class CalendarEventTest {
             
         }
         
-        assertEquals(1, events.size());
+        assertEquals(5, events.size());
 
     }
     
