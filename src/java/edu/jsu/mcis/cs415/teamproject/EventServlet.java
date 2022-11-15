@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import edu.jsu.mcis.cs415.teamproject.dao.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -106,6 +110,42 @@ public class EventServlet extends HttpServlet {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    protected void doPut2(HttpServletRequest request, HttpServletResponse response) {
+
+        BufferedReader br = null;
+        response.setContentType("application/json;charset=UTF-8");
+
+        try (PrintWriter out = response.getWriter()) {
+
+            br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
+            HashMap<String, String> parameters = new HashMap<>();
+            String[] pairs = p.trim().split("&");
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i].split("=");
+                if (pair.length > 1) {
+                    parameters.put(pair[0], pair[1]);
+                }
+                else {
+                    parameters.put(pair[0], null);
+                }
+            }
+            //String name = parameters.get("name");
+            //int id = Integer.parseInt(parameters.get("id"));
+
+            // rest of servlet code goes here
+        }
+        
+        catch (Exception e) { e.printStackTrace(); }
+        
+        finally {
+            if (br != null) {
+                try { br.close(); } catch (Exception e) { e.printStackTrace(); }
+            }
+        }
+        
     }
     
     @Override
