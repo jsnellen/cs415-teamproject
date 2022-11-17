@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -86,8 +87,15 @@ public class EventServlet extends HttpServlet {
             String day_of_week = request.getParameter("day_of_week");
             String year = request.getParameter("year");
             Long duration  = Long.parseLong(request.getParameter("duration"));
-            ZonedDateTime active = ZonedDateTime.of(2022, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC")); // default
-            ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC")); // default
+            String active = request.getParameter("active");
+            String inactive = request.getParameter("inactive");
+            
+            // parse active and inactive times as ZonedDateTimes
+            LocalDateTime ldt_active = LocalDateTime.parse(active, dtf);
+            ZonedDateTime zdt_active = ZonedDateTime.of(ldt_active, ZoneId.of("UTC"));
+            
+            LocalDateTime ldt_inactive = LocalDateTime.parse(inactive, dtf);
+            ZonedDateTime zdt_inactive = ZonedDateTime.of(ldt_inactive, ZoneId.of("UTC"));
             
             // fill HashMap with parameters
             params.put("description", description);
@@ -98,8 +106,8 @@ public class EventServlet extends HttpServlet {
             params.put("day_of_week", day_of_week);
             params.put("year", year);
             params.put("duration", Long.toString(duration));
-            params.put("utc_active", dtf.format(active));
-            params.put("utc_inactive", dtf.format(inactive));
+            params.put("utc_active", dtf.format(zdt_active));
+            params.put("utc_inactive", dtf.format(zdt_inactive));
             
             // fill Event object
             Event e1 = new Event(params);
@@ -165,27 +173,49 @@ public class EventServlet extends HttpServlet {
             daoFactory = (DAOFactory) context.getAttribute("daoFactory");
         }
         
+        BufferedReader br = null;
+        
         response.setContentType("application/json; charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
             
             EventDAO e_dao = daoFactory.getEventDAO();
-            HashMap<String, String> params = new HashMap<>();
             
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             
             // get parameters from client
-            int id = Integer.parseInt(request.getParameter("id"));
-            String description = request.getParameter("description");
-            String minute = request.getParameter("minute");
-            String hour = request.getParameter("hour");
-            String day_of_month = request.getParameter("day_of_month");
-            String month_of_year = request.getParameter("month_of_year");
-            String day_of_week = request.getParameter("day_of_week");
-            String year = request.getParameter("year");
-            Long duration  = Long.parseLong(request.getParameter("duration"));
-            ZonedDateTime active = ZonedDateTime.of(2022, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC")); // default
-            ZonedDateTime inactive = ZonedDateTime.of(2022, 11, 30, 23, 59, 59, 0, ZoneId.of("UTC")); // default
+            br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
+            HashMap<String, String> parameters = new HashMap<>();
+            String[] pairs = p.trim().split("&");
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i].split("=");
+                if (pair.length > 1) {
+                    parameters.put(pair[0], pair[1]);
+                }
+                else {
+                    parameters.put(pair[0], null);
+                }
+            }
+            
+            int id = Integer.parseInt(parameters.get("id"));
+            String description = parameters.get("description");
+            String minute = parameters.get("minute");
+            String hour = parameters.get("hour");
+            String day_of_month = parameters.get("day_of_month");
+            String month_of_year = parameters.get("month_of_year");
+            String day_of_week = parameters.get("day_of_week");
+            String year = parameters.get("year");
+            Long duration  = Long.parseLong(parameters.get("duration"));
+            String active = parameters.get("active");
+            String inactive = parameters.get("inactive");
+            
+            // parse active and inactive times as ZonedDateTimes
+            LocalDateTime ldt_active = LocalDateTime.parse(active, dtf);
+            ZonedDateTime zdt_active = ZonedDateTime.of(ldt_active, ZoneId.of("UTC"));
+            
+            LocalDateTime ldt_inactive = LocalDateTime.parse(inactive, dtf);
+            ZonedDateTime zdt_inactive = ZonedDateTime.of(ldt_inactive, ZoneId.of("UTC"));
             
             // find event
             Event e = e_dao.find(id);
@@ -199,8 +229,8 @@ public class EventServlet extends HttpServlet {
             e.setDayOfWeek(day_of_week);
             e.setYear(year);
             e.setDuration(duration);
-            e.setUtcActive(active);
-            e.setUtcInactive(inactive);
+            e.setUtcActive(zdt_active);
+            e.setUtcInactive(zdt_inactive);
             
             // call EventDAO update method
             out.println(e_dao.update(e));
@@ -209,6 +239,11 @@ public class EventServlet extends HttpServlet {
             e.printStackTrace();
         }
         
+        finally {
+            if (br != null) {
+                try { br.close(); } catch (Exception e) { e.printStackTrace(); }
+            }
+        }
     }
     
     @Override
@@ -228,16 +263,40 @@ public class EventServlet extends HttpServlet {
             daoFactory = (DAOFactory) context.getAttribute("daoFactory");
         }
         
+        BufferedReader br = null;
+        
         response.setContentType("application/json; charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
-            int id = Integer.parseInt(request.getParameter("id"));
+            
+            br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            
+            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
+            
+            HashMap<String, String> parameters = new HashMap<>();
+            String[] pairs = p.trim().split("&");
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i].split("=");
+                if (pair.length > 1) {
+                    parameters.put(pair[0], pair[1]);
+                }
+                else {
+                    parameters.put(pair[0], null);
+                }
+            }
+            int id = Integer.parseInt(parameters.get("id"));
             
             EventDAO e_dao = daoFactory.getEventDAO();
             out.println(e_dao.delete(id));
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        
+        finally {
+            if (br != null) {
+                try { br.close(); } catch (Exception e) { e.printStackTrace(); }
+            }
         }
         
     }
