@@ -15,7 +15,7 @@ public class UserDAO {
     
     private final String QUERY_SELECT_USER = "SELECT * FROM user WHERE id = ?";
     private final String QUERY_INSERT_USER_LOGIN = "INSERT INTO `login` (username, `password`) VALUES (?, SHA2(?, 512))";
-    private final String QUERY_INSERT_USER_ROLE = "INSERT INTO user_to_role (username, rolename) VALUES (?, user)";
+    private final String QUERY_INSERT_USER_ROLE = "INSERT INTO user_to_role (username, rolename) VALUES (?, ?)";
     private final String QUERY_INSERT_USER = "INSERT INTO `user` (username, description, email, timezone) VALUES (?, ?, ?, ?)";
     private final String QUERY_UPDATE_USER_LOGIN = "";
     private final String QUERY_UPDATE_USER_ROLE = "";
@@ -23,6 +23,8 @@ public class UserDAO {
     private final String QUERY_DELETE_USER = "DELETE FROM `user` WHERE id = ?";
      private final String QUERY_DELETE_USER_ROLE = "DELETE FROM user_to_role WHERE username = ?";
     private final String QUERY_DELETE_USER_LOGIN = "DELETE FROM `login` WHERE username = ?";
+    
+    private final String USER_ROLENAME = "user";
    
     public User find(int id) throws DAOException{
         
@@ -89,7 +91,7 @@ public class UserDAO {
         return result;
     }
     
-    public Integer create (Login login, User user) throws DAOException {
+    public Integer create (User user) throws DAOException {
         
         Integer key = null;
         
@@ -101,8 +103,8 @@ public class UserDAO {
         try {
             
             ps = conn.prepareStatement(QUERY_INSERT_USER_LOGIN, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, login.getUsername());
-            ps.setString(2, login.getPassword());
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
             
             int result = ps.executeUpdate();
             
@@ -115,7 +117,7 @@ public class UserDAO {
             }
             ps2 = conn.prepareStatement(QUERY_INSERT_USER_ROLE, PreparedStatement.RETURN_GENERATED_KEYS);
             ps2.setString(1, user.getUsername());
-            ps2.setString(2, "user");
+            ps2.setString(2, USER_ROLENAME);
             
             ps2.addBatch();
             //result = ps2.executeBatch();
