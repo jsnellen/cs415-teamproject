@@ -21,7 +21,7 @@ public class UserDAO {
     private final String QUERY_UPDATE_USER_ROLE = "";
     private final String QUERY_UPDATE_USER = "";
     private final String QUERY_DELETE_USER = "DELETE FROM `user` WHERE id = ?";
-     private final String QUERY_DELETE_USER_ROLE = "DELETE FROM user_to_role WHERE username = ?";
+    private final String QUERY_DELETE_USER_ROLE = "DELETE FROM user_to_role WHERE username = ?";
     private final String QUERY_DELETE_USER_LOGIN = "DELETE FROM `login` WHERE username = ?";
     
     private final String USER_ROLENAME = "user";
