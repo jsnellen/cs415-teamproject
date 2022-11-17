@@ -3,14 +3,14 @@ package edu.jsu.mcis.cs415.teamproject;
 import java.time.ZoneId;
 import java.util.HashMap;
 
-public class User {
+public class User{
     
     private final Integer id;
     private final String username, description, email;
     private final ZoneId timezone;
     
-    public User(HashMap<String, String> params) {
-        
+    public User (HashMap<String, String> params) {
+           
         this.id = Integer.parseInt(params.get("id"));
         this.username = params.get("username");
         this.description = params.get("description");

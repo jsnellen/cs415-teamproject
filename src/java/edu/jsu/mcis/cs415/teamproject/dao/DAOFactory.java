@@ -69,5 +69,9 @@ public final class DAOFactory {
     public EventDAO getEventDAO() {
         return new EventDAO(this);
     }
+    
+    public UserDAO getUserDAO() {
+        return new UserDAO(this);
+    }
 
 }

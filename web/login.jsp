@@ -27,6 +27,10 @@
                 <p>
                     <input type="submit" value="Log In" tabindex=3 />
                 </p>
+                
+                <p id='createAcc'>
+                    Don't have an account? <a href='createUser.jsp'>Click Here To Create One</a>
+                </p>
 
             </fieldset>
 
