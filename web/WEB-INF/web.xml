@@ -12,6 +12,10 @@
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>edu.jsu.mcis.cs415.teamproject.UserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TimezoneServlet</servlet-name>
+        <servlet-class>edu.jsu.mcis.cs415.teamproject.TimezoneServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimezoneServlet</servlet-name>
+        <url-pattern>/TimezoneServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

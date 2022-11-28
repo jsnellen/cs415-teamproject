@@ -102,7 +102,7 @@ public class UserDAO {
         
         try {
             
-            ps = conn.prepareStatement(QUERY_INSERT_USER_LOGIN, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement(QUERY_INSERT_USER_LOGIN);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             
@@ -115,18 +115,37 @@ public class UserDAO {
                     key = rs.getInt(1);
                 }
             }
-            ps2 = conn.prepareStatement(QUERY_INSERT_USER_ROLE, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps2 = conn.prepareStatement(QUERY_INSERT_USER_ROLE);
             ps2.setString(1, user.getUsername());
             ps2.setString(2, USER_ROLENAME);
             
-            ps2.addBatch();
-            //result = ps2.executeBatch();
+            result = ps2.executeUpdate();
+            
+            if (result ==  1) {
+                
+                rs = ps.getGeneratedKeys();
+                if (rs.next()){
+                    key = rs.getInt(1);
+                }
+            }
             
             ps3 = conn.prepareStatement(QUERY_INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
             ps3.setString(1, user.getUsername());
             ps3.setString(2, user.getDescription());
             ps3.setString(3, user.getTimezone().toString());
             ps3.setString(4, user.getEmail());
+            
+            result = ps3.executeUpdate();
+            
+            if (result == 1) {
+                
+                rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    key = rs.getInt(1);
+                }
+            }
+            
+            
             
           
         }

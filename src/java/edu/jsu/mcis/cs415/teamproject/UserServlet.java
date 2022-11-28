@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import edu.jsu.mcis.cs415.teamproject.dao.*;
-import java.util.HashMap;
+import java.time.ZoneId;
+import java.util.*;
 import javax.servlet.ServletContext;
 
 
@@ -21,7 +22,7 @@ public class UserServlet extends HttpServlet {
         DAOFactory daoFactory = null;
         
         ServletContext context = request.getServletContext();
-        
+ 
         if (context.getAttribute("daoFactory") == null) {
             System.err.println("*** Creating new DAOFactory ...");
             daoFactory = new DAOFactory();
@@ -34,6 +35,7 @@ public class UserServlet extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()){
+       
             int id = Integer.parseInt(request.getParameter("id"));
             
             UserDAO u_dao = daoFactory.getUserDAO();
@@ -69,7 +71,27 @@ public class UserServlet extends HttpServlet {
             UserDAO u_dao = daoFactory.getUserDAO();
             HashMap<String, String> params = new HashMap<>();
             
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String description = request.getParameter("description");
+            String email = request.getParameter("email");
+            String timezone = request.getParameter("timezone");
             
+            //fill up the user hashmap
+            
+            params.put("username", username);
+            params.put("password", password);
+            params.put("description", description);
+            params.put("email", email);
+            params.put("timezone", timezone);
+            
+            //fill up the user
+            User u = new User(params);
+            
+            out.println(u_dao.create(u));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
