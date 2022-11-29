@@ -18,7 +18,7 @@ var userCreate = (function (){
                  return false;
             }
             else {
-                $(invalidPass).html("Congrats, your passwords watch");
+                $(invalidPass).html("Congrats, your passwords match");
                 $(invalidPass).css("color", "#018749");
                 return true;
             }
