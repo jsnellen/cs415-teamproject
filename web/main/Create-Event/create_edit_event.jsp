@@ -39,7 +39,7 @@
           </form>
 
         <p>
-            <a href="More_Options_Event.jsp">More Options</a>
+            <a href="<%= request.getContextPath() %>/main/Create-Event/More_Options_Event.jsp">More Options</a>
         </p>
         
         <p>

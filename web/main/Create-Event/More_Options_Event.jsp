@@ -51,7 +51,7 @@
           <div class="dropdown" style="float:left;">
             <button class="dropbtn">How often do you want your event to repeat</button>
             <div class="dropdown-content" style="left:0;"></div>
-              <a href="Recurring_Events.jsp">Repeating Events</a>
+              <a href="<%= request.getContextPath() %>/main/Create-Event/Recurring_Events.jsp">Repeating Events</a>
             </div>
           </div>
         </p>

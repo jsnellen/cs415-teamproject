@@ -21,7 +21,7 @@
            <div class="dropdown" style="float:left;">
             <button class="dropbtn">Calendar Options</button>
             <div class="dropdown-content" style="left:0;">
-              <a href="create_edit_event.jsp">Create/Edit Event Page</a>
+              <a href="<%= request.getContextPath() %>/main/Create-Event/create_edit_event.jsp">Create/Edit Event Page</a>
               <a href="#">Delete Event</a>
               <a href="#">Create/Edit New Calendar</a>
               <a href="#">Delete Calendar(s)</a>

@@ -24,6 +24,8 @@ public class UserDAO {
     private final String QUERY_DELETE_USER_ROLE = "DELETE FROM user_to_role WHERE username = ?";
     private final String QUERY_DELETE_USER_LOGIN = "DELETE FROM `login` WHERE username = ?";
     
+    private final String QUERY_GET_USERID = "SELECT id FROM `user` WHERE username = ?";
+    
     private final String USER_ROLENAME = "user";
    
     public User find(int id) throws DAOException{
@@ -95,9 +97,8 @@ public class UserDAO {
         
         Integer key = null;
         
-        
         Connection conn = daoFactory.getConnection();
-        PreparedStatement ps, ps2, ps3 = null;
+        PreparedStatement ps = null, ps2 = null, ps3 = null;
         ResultSet rs = null;
         
         try {
@@ -110,46 +111,123 @@ public class UserDAO {
             
             if (result == 1) {
                 
-                rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    key = rs.getInt(1);
+                ps2 = conn.prepareStatement(QUERY_INSERT_USER_ROLE);
+                ps2.setString(1, user.getUsername());
+                ps2.setString(2, USER_ROLENAME);
+
+                result = ps2.executeUpdate();
+
+                if (result ==  1) {
+
+                    ps3 = conn.prepareStatement(QUERY_INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
+                    ps3.setString(1, user.getUsername());
+                    ps3.setString(2, user.getDescription());
+                    ps3.setString(3, user.getTimezone().toString());
+                    ps3.setString(4, user.getEmail());
+
+                    result = ps3.executeUpdate();
+
+                    if (result == 1) {
+
+                        rs = ps.getGeneratedKeys();
+                        if (rs.next()) {
+                            key = rs.getInt(1);
+                        }
+                        
+                    }
+
                 }
-            }
-            ps2 = conn.prepareStatement(QUERY_INSERT_USER_ROLE);
-            ps2.setString(1, user.getUsername());
-            ps2.setString(2, USER_ROLENAME);
-            
-            result = ps2.executeUpdate();
-            
-            if (result ==  1) {
                 
-                rs = ps.getGeneratedKeys();
-                if (rs.next()){
-                    key = rs.getInt(1);
-                }
             }
-            
-            ps3 = conn.prepareStatement(QUERY_INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps3.setString(1, user.getUsername());
-            ps3.setString(2, user.getDescription());
-            ps3.setString(3, user.getTimezone().toString());
-            ps3.setString(4, user.getEmail());
-            
-            result = ps3.executeUpdate();
-            
-            if (result == 1) {
-                
-                rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    key = rs.getInt(1);
-                }
-            }
-            
-            
-            
           
         }
-        catch (Exception e) {throw new DAOException (e.getMessage());} 
+        catch (Exception e) {throw new DAOException (e.getMessage());}
+        finally {
+            
+            if (rs != null) {
+                try {
+                    rs.close();
+                    ps.close();
+                    ps2.close();
+                    ps3.close();
+                    rs = null;
+                    ps = null;
+                    ps2 = null;
+                    ps3 = null;
+                }
+                catch (Exception e) {throw new DAOException (e.getMessage());}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                    conn = null;
+                }
+                catch (Exception e) {throw new DAOException (e.getMessage());}
+            }
+        }
+        
         return key;
+        
     }
+    
+    
+    public Integer findId(String username) throws DAOException {
+        
+        Integer id = null;
+        
+        Connection conn = daoFactory.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            ps = conn.prepareStatement(QUERY_GET_USERID);
+            ps.setString(1, username);
+            
+            boolean hasresults = ps.execute();
+            
+            if (hasresults) {
+                
+                rs = ps.getResultSet();
+                
+                if (rs.next()) {
+                    
+                    id = rs.getInt("id");
+                    
+                }
+            }
+        }
+        catch(Exception e) {
+            throw new DAOException (e.getMessage());
+        }
+        finally {
+            
+            if (rs != null) {
+                try {
+                    rs.close();
+                    rs = null;
+                }
+                catch (Exception e) {throw new DAOException (e.getMessage());}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                    ps = null;
+                }
+                catch (Exception e) {throw new DAOException (e.getMessage());}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                    conn = null;
+                }
+                catch (Exception e) {throw new DAOException (e.getMessage());}
+            }
+        }
+        
+        return id;
+        
+    }
+    
+    
 }

@@ -88,6 +88,8 @@ public class UserServlet extends HttpServlet {
             //fill up the user
             User u = new User(params);
             
+            int userid = u_dao.findId(request.getRemoteUser());
+            
             out.println(u_dao.create(u));
             response.sendRedirect("/login.jsp");
         }
