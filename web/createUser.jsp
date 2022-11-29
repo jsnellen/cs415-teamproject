@@ -10,15 +10,15 @@
         <title>Create Account</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript" src="main/scripts/jquery-3.6.1.min.js"></script>
-        <script type="text/javascript" src="userCreate.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/userCreate.js"></script>
 
 
     </head>
 
     <body>
 
-        <form id="createUserform" name="createUserform" method="POST" onsubmit=" return userCreate.createUserSubmit();">
+        <form id="createUserform" name="createUserform" onsubmit="return userCreate.createUserSubmit()">
             
             <fieldset>
                 <legend>Create Account</legend>
@@ -61,9 +61,10 @@
             </fieldset>
 
         </form>
+                
+        <div id="output"></div>
 
         <script type="text/javascript">
-            userCreate.validatePass();
         </script>
     </body>
 
