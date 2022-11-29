@@ -129,7 +129,7 @@ public class UserDAO {
 
                     if (result == 1) {
 
-                        rs = ps.getGeneratedKeys();
+                        rs = ps3.getGeneratedKeys();
                         if (rs.next()) {
                             key = rs.getInt(1);
                         }
