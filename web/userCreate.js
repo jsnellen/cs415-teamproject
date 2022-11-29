@@ -13,7 +13,7 @@ var userCreate = (function (){
             invalidPass = document.getElementById("invalidPass");
             
             if (userPass !== confirmPass) {
-                 $(invalidPass).html("The passwords you entered do no match");
+                 $(invalidPass).html("The passwords you entered do not match");
                  $(invalidPass).css("color", "red");
                  return false;
             }
