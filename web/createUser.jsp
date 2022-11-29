@@ -9,34 +9,45 @@
         <title>Create Account</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="main/scripts/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript" src="userCreate.js"></script>
+
 
     </head>
 
     <body>
 
-        <form id="createUserform" name="createUserform" method="POST">
+        <form id="createUserform" name="createUserform" method="POST" onsubmit=" return userCreate.createUserSubmit();">
             
             <fieldset>
                 <legend>Create Account</legend>
 
                 <p>
-                    <label for="username">Username:</label>
-                    <input id="username" name="username" type="text" tabindex=1 />
+                    <input id="username" name="username" type="text" placeholder="Username" tabindex=1 required/>
+                <div id="emptyName"></div>
+                </p>
+                <p>
+                    <input id="password" name="password" type="password" placeholder="Password" tabindex=2 required/>
+                    <div id="emptyPass"></div>
 
-                    <label for="password">Password:</label>
-                    <input id="password" name="password" type="password" tabindex=2 />
-                    
-                    <label for="confirmPass">Confirm Password:</label>
-                    <input id="confirmPass" name="confirmPass" type="password" tabindex=3 />
-                    
-                    <label for="email">Email:</label>
-                    <input id="email" name="email" type="email" tabindex=4 />
-                    
-                    <label for="description">Description</label>
-                    <input id="description" name="description" type="text" tabindex=5 />
-                    
+                </p>
+                <p>    
+                    <input id="confirmPass" name="confirmPass" type="password" placeholder="Confirm Password" tabindex=3 required/>
+                <div id="invalidPass"></div>
+                </p>
+                <p>    
+                    <input id="email" name="email" type="email" placeholder="Email" tabindex=4 required/>
+                    <div id="emptyEmail"></div>
+
+                </p>
+                <p>
+                    <input id="description" name="description" type="text" placeholder="Description" tabindex=5 required/>
+                    <div id="emptyDesc"></div>
+
+                </p>
+                <p>    
                     <label for="timezone">Select your timezone: </label>
-                    <select id="timezone" name="timezone">
+                    <select id="timezone" name="timezone" required>
                         <option value="Hawaii">(GMT-10:00) Hawaii</option>
                         <option value="Alaska">(GMT-09:00) Alaska</option>
                         <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
@@ -178,20 +189,23 @@
                         <option value="Marshall Is.">(GMT+12:00) Marshall Is.</option>
                         <option value="Wellington">(GMT+12:00) Wellington</option>
                         <option value="Nuku'alofa">(GMT+13:00) Nuku'alofa</option>
-	</select>
-                   
-                   
+	</select>  
                 </p>
+                <div id="emptyZone"></div>
+
 
                 <p>
                     <input type="submit" value="Create Account" tabindex=6 />
                 </p>
+                <div id="confirmCreate"></div>
 
             </fieldset>
 
         </form>
 
-
+        <script type="text/javascript">
+            userCreate.validatePass();
+        </script>
     </body>
 
 </html>
