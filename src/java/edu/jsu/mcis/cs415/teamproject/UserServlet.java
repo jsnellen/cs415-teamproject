@@ -89,6 +89,7 @@ public class UserServlet extends HttpServlet {
             User u = new User(params);
             
             out.println(u_dao.create(u));
+            response.sendRedirect("/login.jsp");
         }
         catch (Exception e) {
             e.printStackTrace();
