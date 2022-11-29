@@ -51,10 +51,7 @@
           <div class="dropdown" style="float:left;">
             <button class="dropbtn">How often do you want your event to repeat</button>
             <div class="dropdown-content" style="left:0;"></div>
-              <a href="Daily.html">Daily</a>
-              <a href="Weekly.html">Weekly</a>
-              <a href="Monthly.html">Monthly</a>
-              <a href="Yearly.html">Yearly</a>
+              <a href="Recurring_Events.jsp">Repeating Events</a>
             </div>
           </div>
         </p>

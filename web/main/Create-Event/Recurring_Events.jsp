@@ -1,5 +1,5 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -12,11 +12,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="styles/main.css">
-
+        <style><%@include file="styles/main.css"%></style>
+        <script src="<c:url value="scripts/jquery-3.6.1.min.js" />"></script>
+        <script src="<c:url value="scripts/script.js" />"></script>
+        <%-- 
         <script type="text/javascript" src="scripts/jquery-3.6.1.min.js"></script>
         <script type="text/javascript" src="scripts/script.js"></script>
-
+        --%>
+        
     </head>
 
     <body>
