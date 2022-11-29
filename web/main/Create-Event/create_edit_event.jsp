@@ -39,7 +39,7 @@
           </form>
 
         <p>
-            <a href="More_Options_Event.html">More Options</a>
+            <a href="More_Options_Event.jsp">More Options</a>
         </p>
         
         <p>
