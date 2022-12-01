@@ -95,7 +95,70 @@ public class UserServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+    
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+        DAOFactory daoFactory = null;
+        
+        ServletContext context = request.getServletContext();
+        
+        if (context.getAttribute("daoFactory") == null) {
+            System.err.println("*** Creating new DAOFactory ...");
+            daoFactory = new DAOFactory();
+            context.setAttribute("daoFactory", daoFactory);
+        }
+        else {
+            daoFactory = (DAOFactory) context.getAttribute("daoFactory");
+        }
+        
+        response.setContentType("application/json; charset=UTF-8");
+        
+        try (PrintWriter out = response.getWriter()) {
+            
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        finally {
+            
+        }
+    }
 
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+        DAOFactory daoFactory = null;
+        
+        ServletContext context = request.getServletContext();
+        
+        if (context.getAttribute("daoFactory") == null) {
+            System.err.println("*** Creating new DAOFactory ...");
+            daoFactory = new DAOFactory();
+            context.setAttribute("daoFactory", daoFactory);
+        }
+        else {
+            daoFactory = (DAOFactory) context.getAttribute("daoFactory");
+        }
+        
+        response.setContentType("application/json; charset=UTF-8");
+        
+        try (PrintWriter out = response.getWriter()) {
+            
+            
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        finally {
+            
+        }
+        
+    }
     
     @Override
     public String getServletInfo() {
