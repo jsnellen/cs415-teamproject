@@ -36,7 +36,7 @@ var userCreate = (function () {
             }
             
             $.ajax({
-                url: "main/UserServlet", 
+                url: "UserServlet", 
                 method: "POST",
                 data: $("#createUserform").serialize(),
                 dataType: "html", 

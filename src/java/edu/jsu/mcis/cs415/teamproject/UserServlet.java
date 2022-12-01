@@ -88,6 +88,8 @@ public class UserServlet extends HttpServlet {
             //fill up the user
             User u = new User(params);
             
+            System.err.println("New User:\n" + u.toString());
+            
             out.println(u_dao.create(u));
             //response.sendRedirect("/login.jsp");
         }
@@ -100,6 +102,6 @@ public class UserServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "User Servlet";
-    }// </editor-fold>
+    }
 
 }

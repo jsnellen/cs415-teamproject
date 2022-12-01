@@ -50,4 +50,19 @@ public class User {
         return timezone;
     }
     
+    @Override
+    public String toString() {
+        
+        StringBuilder s = new StringBuilder();
+        
+        s.append("Username: ").append(username).append('\n');
+        s.append("Description: ").append(description).append('\n');
+        s.append("Email: ").append(email).append('\n');
+        s.append("Time Zone: ").append(timezone).append('\n');
+        s.append("Password: ").append(password).append('\n');
+        
+        return s.toString().trim();
+        
+    }
+    
 }
