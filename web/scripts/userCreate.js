@@ -31,9 +31,12 @@ var userCreate = (function () {
                 console.log("Please confirm your passwords before creating account");
                 return false;
             }
+            else {
+                console.log("Congrats!!");
+            }
             
             $.ajax({
-                url: "/UserServlet", 
+                url: "main/UserServlet", 
                 method: "POST",
                 data: $("#createUserform").serialize(),
                 dataType: "html", 
