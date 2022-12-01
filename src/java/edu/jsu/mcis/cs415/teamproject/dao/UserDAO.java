@@ -16,8 +16,9 @@ public class UserDAO {
     private final String QUERY_SELECT_USER = "SELECT * FROM user WHERE id = ?";
     private final String QUERY_INSERT_USER_LOGIN = "INSERT INTO `login` (username, `password`) VALUES (?, SHA2(?, 512))";
     private final String QUERY_INSERT_USER_ROLE = "INSERT INTO user_to_role (username, rolename) VALUES (?, ?)";
-    private final String QUERY_INSERT_USER = "INSERT INTO `user` (username, description, email, timezone) VALUES (?, ?, ?, ?)";
-    private final String QUERY_UPDATE_USER_LOGIN = "";
+    private final String QUERY_INSERT_USER = "INSERT INTO `user` (username, description, timezone, email) VALUES (?, ?, ?, ?)";
+    private final String QUERY_UPDATE_USER_LOGIN = "UPDATE 'login' SET " +
+            "username=?, 'password'=SHA2(?, 512) WHERE username=?";
     private final String QUERY_UPDATE_USER_ROLE = "";
     private final String QUERY_UPDATE_USER = "";
     private final String QUERY_DELETE_USER = "DELETE FROM `user` WHERE id = ?";
@@ -229,5 +230,16 @@ public class UserDAO {
         
     }
     
+    public boolean update(User user) throws DAOException{
+        
+        return false;
+        
+    }
+    
+    public boolean delete(int id) throws DAOException{
+        
+        return false;
+        
+    }
     
 }
