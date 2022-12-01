@@ -12,13 +12,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style><%@include file="styles/main.css"%></style>
-        <script src="<c:url value="scripts/jquery-3.6.1.min.js" />"></script>
-        <script src="<c:url value="scripts/script.js" />"></script>
-        <%-- 
-        <script type="text/javascript" src="scripts/jquery-3.6.1.min.js"></script>
-        <script type="text/javascript" src="scripts/script.js"></script>
-        --%>
+        <style><%@include file="styles/main.css"%></style>    
+        <script type="text/javascript" src="<%= request.getContextPath() %>/main/Create-Event/scripts/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/main/Create-Event/scripts/script.js"></script>
+        
         
     </head>
 
@@ -32,6 +29,13 @@
             <a href="#" onclick="UITest.onClickShow('dialog3')">Monthly</a><br />
             <a href="#" onclick="UITest.onClickShow('dialog4')">Yearly</a><br />
         </p>
+        
+        <p>
+            <a href="<%= request.getContextPath() %>/main/Create-Event/create_edit_event.jsp">Original Edit Page</a>
+        </p>
+        <p>
+            <a href="<%= request.getContextPath() %>/main/Create-Event/More_Options_Event.jsp">More Options Page</a>
+        </p>        
 
         <div id="overlay">
 
