@@ -39,9 +39,14 @@ var userCreate = (function () {
                 url: "UserServlet", 
                 method: "POST",
                 data: $("#createUserform").serialize(),
-                dataType: "html", 
+                dataType: "json", 
                 success: function (response) {
-                    $("#confirmCreate").html(response);
+                    
+                    if (response["success"] === true)
+                        $("#confirmCreate").html("Welcome!  Click <a href=\"login.jsp\">here</a> to log in.");
+                    else
+                        $("#confirmCreate").html(JSON.stringify(response));
+                    
                 }
                 
             });
