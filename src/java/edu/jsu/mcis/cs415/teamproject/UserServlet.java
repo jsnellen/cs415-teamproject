@@ -32,7 +32,7 @@ public class UserServlet extends HttpServlet {
             daoFactory = (DAOFactory) context.getAttribute("daoFactory");
         }
         
-        response.setContentType("application/json; charset=UTF-8");
+        response.setContentType("application/html; charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()){
        
@@ -64,7 +64,7 @@ public class UserServlet extends HttpServlet {
             daoFactory = (DAOFactory) context.getAttribute("daoFactory");
         }
         
-        response.setContentType("application/json; charset=UTF-8");
+        response.setContentType("application/html; charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
             
@@ -89,7 +89,7 @@ public class UserServlet extends HttpServlet {
             User u = new User(params);
             
             out.println(u_dao.create(u));
-            response.sendRedirect("/login.jsp");
+            //response.sendRedirect("/login.jsp");
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -28,35 +28,27 @@
                     
                 </p>
                 <p>
-                    <input id="password" name="password" type="password" placeholder="Password" tabindex=2 required/>
-                    <div id="emptyPass"></div>
-
+                    <input id="password" name="password" type="password" placeholder="Enter Password" tabindex=2 required/>
                 </p>
+                <span id="passLen"></span>
                 <p>    
-                    <input id="confirmPass" name="confirmPass" type="password" placeholder="Confirm Password" tabindex=3 required/>
-                <div id="invalidPass"></div>
+                    <input id="confirmPass" name="confirmPass" type="password" placeholder="Confirm Password" tabindex=3 required onkeyup="userCreate.validatePass(); return false;"/>
                 </p>
+                <span id="invalidPass"></span>
                 <p>    
-                    <input id="email" name="email" type="email" placeholder="Email" tabindex=4 required/>
-                    <div id="emptyEmail"></div>
-
+                    <input id="email" name="email" type="email" placeholder="Enter Email" tabindex=4 required/>
                 </p>
                 <p>
                     <input id="description" name="description" type="text" placeholder="Description" tabindex=5 required/>
-                    <div id="emptyDesc"></div>
-
                 </p>
                 <p>    
                     <label for="timezone">Select your timezone: </label>
                     <%= DAOUtility.getTimeZonesListHTML() %>
                 </p>
-                <div id="emptyZone"></div>
-
-
                 <p>
                     <input type="submit" value="Create Account" tabindex=6 />
                 </p>
-                <div id="confirmCreate"></div>
+                <span id="confirmCreate"></span>
 
             </fieldset>
 

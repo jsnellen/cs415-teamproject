@@ -2,10 +2,6 @@ var userCreate = (function () {
   
     return {
         
-        isEmpty: function(str) {
-            return !str.trim().length;
-        },
-        
         validatePass: function () {
             
             var result = false;
@@ -13,8 +9,6 @@ var userCreate = (function () {
             userPass = document.getElementById("password").value;
             confirmPass = document.getElementById("confirmPass").value;
             invalidPass = document.getElementById("invalidPass");
-            
-            alert("Password: " + userPass + ", Confirm: " + confirmPass);
             
             if (userPass !== confirmPass) {
                  $(invalidPass).html("The passwords you entered do not match");
@@ -32,11 +26,11 @@ var userCreate = (function () {
         
         createUserSubmit: function () {
             
-            alert("TEST");
-            
-            /*if ( !validatePass() ) {
+            if ( !userCreate.validatePass() ) {
                 alert("Please confirm your passwords before creating account");
-            }*/
+                console.log("Please confirm your passwords before creating account");
+                return false;
+            }
             
             $.ajax({
                 url: "/UserServlet", 
