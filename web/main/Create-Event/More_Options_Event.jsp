@@ -53,10 +53,11 @@
             <div class="dropdown-content" style="left:0;"></div>
               <a href="<%= request.getContextPath() %>/main/Create-Event/Recurring_Events.jsp">Repeating Events</a>
             </div>
-          </div>
-        </p>
+
+            
+            
         <p>
-            <input type="button" value="Less Options" style="float:inline-end;" onclick="window.open('<%= request.getContextPath() %>/main/#.jsp', '_self', false);" />
+            <a href="<%= request.getContextPath() %>/main/Create-Event/create_edit_event.jsp">Less Options</a>
         </p>
         
         <p>
