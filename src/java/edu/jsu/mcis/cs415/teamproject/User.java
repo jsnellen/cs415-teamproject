@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class User {
     
     private final Integer id;
-    private final String username, description, email, password;
+    private final String username, description, email, password, passwordhash;
     private final ZoneId timezone;
     
     public User (HashMap<String, String> params) {
@@ -23,6 +23,7 @@ public class User {
         this.email = params.get("email");
         this.password = params.get("password");
         this.timezone = ZoneId.of(params.get("timezone"));
+        this.passwordhash = params.get("passwordhash");
         
     }
 
@@ -46,8 +47,28 @@ public class User {
         return password;
     }
 
+    public String getPasswordhash() {
+        return passwordhash;
+    }
+
     public ZoneId getTimezone() {
         return timezone;
+    }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder s = new StringBuilder();
+        
+        s.append("Username: ").append(username).append('\n');
+        s.append("Description: ").append(description).append('\n');
+        s.append("Email: ").append(email).append('\n');
+        s.append("Time Zone: ").append(timezone).append('\n');
+        s.append("Password: ").append(password).append('\n');
+        s.append("Password Hash: ").append(passwordhash).append('\n');
+        
+        return s.toString().trim();
+        
     }
     
 }

@@ -31,14 +31,22 @@ var userCreate = (function () {
                 console.log("Please confirm your passwords before creating account");
                 return false;
             }
+            else {
+                console.log("Congrats!!");
+            }
             
             $.ajax({
-                url: "/UserServlet", 
+                url: "UserServlet", 
                 method: "POST",
                 data: $("#createUserform").serialize(),
-                dataType: "html", 
+                dataType: "json", 
                 success: function (response) {
-                    $("#confirmCreate").html(response);
+                    
+                    if (response["success"] === true)
+                        $("#confirmCreate").html("Welcome!  Click <a href=\"login.jsp\">here</a> to log in.");
+                    else
+                        $("#confirmCreate").html(JSON.stringify(response));
+                    
                 }
                 
             });
