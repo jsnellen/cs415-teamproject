@@ -14,6 +14,8 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -51,7 +53,14 @@ public class UserServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            doGet(request, response);
+        } catch (IOException ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) {
         

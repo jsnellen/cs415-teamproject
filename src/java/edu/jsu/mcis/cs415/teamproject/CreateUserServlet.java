@@ -3,8 +3,12 @@ package edu.jsu.mcis.cs415.teamproject;
 
 import edu.jsu.mcis.cs415.teamproject.dao.DAOFactory;
 import edu.jsu.mcis.cs415.teamproject.dao.UserDAO;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -84,7 +88,54 @@ public class CreateUserServlet extends HttpServlet {
         }
        
     }
+    
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
 
+        DAOFactory daoFactory = null;
+        BufferedReader br = null;
+
+        ServletContext context = request.getServletContext();
+
+        if (context.getAttribute("daoFactory") == null) {
+            System.err.println("*** Creating new DAOFactory ...");
+            daoFactory = new DAOFactory();
+            context.setAttribute("daoFactory", daoFactory);
+        } else {
+            daoFactory = (DAOFactory) context.getAttribute("daoFactory");
+        }
+
+        response.setContentType("application/json; charset=UTF-8");
+
+        try (PrintWriter out = response.getWriter()) {
+            UserDAO u_dao = daoFactory.getUserDAO();
+
+            br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
+
+            HashMap<String, String> parameters = new HashMap<>();
+
+            String[] pairs = p.trim().split("&");
+
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i].split("=");
+                parameters.put(pair[0], pair[1]);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
+
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
    
     @Override
     public String getServletInfo() {

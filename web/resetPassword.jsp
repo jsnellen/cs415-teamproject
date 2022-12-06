@@ -8,7 +8,7 @@
         <title>Reset Password</title>
     </head>
     <body>
-        <form id="resetPassword" name="resetPassword">
+        <form id="resetPassword" name="resetPassword" onsubmit="">
             <fieldset>
                 <legend>Reset Password</legend>
                  <input id="username" name="username" type="text" placeholder="Enter Username" tabindex=1 required>
