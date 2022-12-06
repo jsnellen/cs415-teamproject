@@ -54,8 +54,7 @@ public class UserServlet extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) { 
     }
     
     @Override
