@@ -65,6 +65,7 @@ public class User {
         s.append("Email: ").append(email).append('\n');
         s.append("Time Zone: ").append(timezone).append('\n');
         s.append("Password: ").append(password).append('\n');
+        s.append("Password Hash: ").append(passwordhash).append('\n');
         
         return s.toString().trim();
         
