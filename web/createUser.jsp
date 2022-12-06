@@ -13,7 +13,6 @@
         <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-3.6.1.min.js"></script>
         <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/userCreate.js"></script>
 
-
     </head>
 
     <body>
@@ -54,7 +53,10 @@
 
         </form>
                 
-        <div id="output"></div>
+       
+        <p id="loginRedirect">
+            Already Have an Account? <a href="login.jsp">Log in</a>
+        </p>
 
         <script type="text/javascript">
         </script>

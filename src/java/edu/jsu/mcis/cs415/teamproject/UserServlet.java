@@ -56,61 +56,6 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         
-        DAOFactory daoFactory = null;
-        
-        ServletContext context = request.getServletContext();
-        
-        if (context.getAttribute("daoFactory") == null) {
-            System.err.println("*** Creating new DAOFactory ...");
-            daoFactory = new DAOFactory();
-            context.setAttribute("daoFactory", daoFactory);
-        }
-        else {
-            daoFactory = (DAOFactory) context.getAttribute("daoFactory");
-        }
-        
-        response.setContentType("application/json; charset=UTF-8");
-        
-        try (PrintWriter out = response.getWriter()) {
-            
-            UserDAO u_dao = daoFactory.getUserDAO();
-            HashMap<String, String> params = new HashMap<>();
-            
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String description = request.getParameter("description");
-            String email = request.getParameter("email");
-            String timezone = request.getParameter("timezone");
-            
-            //fill up the user hashmap
-            
-            params.put("username", username);
-            params.put("password", password);
-            params.put("description", description);
-            params.put("email", email);
-            params.put("timezone", timezone);
-            
-            //fill up the user
-            User u = new User(params);
-            
-            System.err.println("New User:\n" + u.toString());
-            
-            Integer userid = u_dao.create(u);
-            
-            // Create Response Data
-            
-            JSONObject json = new JSONObject();
-            json.put("success", (userid != null));
-            json.put("userid", userid);
-            
-            out.println( JSONValue.toJSONString(json) );
-            
-            //response.sendRedirect("/login.jsp");
-            
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     
     @Override

@@ -31,6 +31,9 @@
                 <p id='createAcc'>
                     Don't have an account? <a href='createUser.jsp'>Click Here To Create One</a>
                 </p>
+                <p id="forgotPass">
+                    <a href="resetPassword.jsp">Forgot Password?</a>
+                </p>
 
             </fieldset>
 
