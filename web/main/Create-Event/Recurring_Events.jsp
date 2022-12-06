@@ -42,7 +42,7 @@
             <div id="dialog1" class="dialog">
                 <h2>Daily Event</h2>
               
-                <form>
+                <form id="createeventform" name="createeventform" onsubmit="return script.eventSubmit()">
                   <input type="date" id="event_start" name="event_start"            
                   value="2022-07-22"
                   min="2018-01-01" max="2022-12-31"> Starting Date:<br>
@@ -76,7 +76,7 @@
             <div id="dialog2" class="dialog">
                 <h2>Weekly Event</h2>
               
-                <form>
+                <form id="createeventform" name="createeventform" onsubmit="return script.eventSubmit()">
                   <input type="date" id="event_start" name="event_start"            
                   value="2022-07-22"
                   min="2018-01-01" max="2022-12-31"> Starting Date:<br>
@@ -112,7 +112,7 @@
             <div id="dialog3" class="dialog">
                 <h2>Monthly Event</h2>
               
-                <form>
+                <form id="createeventform" name="createeventform" onsubmit="return script.eventSubmit()">
                   <input type="date" id="event_start" name="event_start"            
                   value="2022-07-22"
                   min="2018-01-01" max="2022-12-31"> Starting Date:<br>
@@ -147,7 +147,7 @@
             <div id="dialog4" class="dialog">
                 <h2>Yearly Event</h2>
                   
-                <form>
+                <form id="createeventform" name="createeventform" onsubmit="return script.eventSubmit()">
                   <input type="date" id="event_start" name="event_start"            
                   value="2022-07-22"
                   min="2018-01-01" max="2022-12-31"> Starting Date:<br>

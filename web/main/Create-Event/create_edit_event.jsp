@@ -17,7 +17,7 @@
     <body>
         <p>create/edit event</p>
 
-          <form>
+          <form id="createeventform" name="createeventform" onsubmit="return script.eventSubmit()">
             <label for="eventname">Name of the Event:</label><br>
             <input type="text" id="eventname" name="eventname"><br>
             <label for="description">Description for Event:</label><br>

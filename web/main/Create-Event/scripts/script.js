@@ -93,6 +93,23 @@ var UITest = {
         output += data.firstname + " " + data.middlename + " " + data.lastname + "!</p>";
         $("#output").html(output);
         
-    }
+    },
+    
+   createEventSubmit: function () {
+            
+
+    $.ajax({
+        url: "/EventServlet", 
+        method: "POST",
+        data: $("#createEventform").serialize(),
+        dataType: "HTML", 
+        success: function (response) {
+            $("#confirmCreate").html(response);
+        }
+        
+    });
+    
+    return false; 
+}
     
 };
