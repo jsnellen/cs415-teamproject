@@ -93,8 +93,6 @@ public class UserServlet extends HttpServlet {
             //fill up the user
             User u = new User(params);
             
-            System.err.println("New User:\n" + u.toString());
-            
             Integer userid = u_dao.create(u);
             
             // Create Response Data
@@ -133,6 +131,7 @@ public class UserServlet extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
+            UserDAO u_dao = daoFactory.getUserDAO();
 
             br = new BufferedReader(new InputStreamReader(request.getInputStream()));
             String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
@@ -146,9 +145,96 @@ public class UserServlet extends HttpServlet {
                 parameters.put(pair[0], pair[1]);
             }
             
-            String olduserid = request.getRemoteUser();
+            //String olduserid = request.getRemoteUser(); //returns user login
+            String olduserid = "dbuser"; //test
+            String newusername = parameters.get("username");
+            String newpassword = parameters.get("password");
+            String description = parameters.get("description");
+            String timezone = parameters.get("timezone");
+            String email = parameters.get("email");
+            
 
             // rest of servlet code goes here
+            User oldUserInfo = null;
+            User newUserInfo = null;
+            
+            // fill old data
+            Integer id = u_dao.findId(olduserid);
+            oldUserInfo = u_dao.find(id);
+            
+            // fill new data
+            HashMap<String, String> newUserParameters = new HashMap<>();
+            
+            // If user wants to change info but keep password
+            if(newpassword == null){
+                newUserParameters.put("passwordhash", oldUserInfo.getPasswordhash());
+                
+                if(newusername != null){
+                    newUserParameters.put("username", newusername);
+                }
+                else{
+                    newUserParameters.put("username", oldUserInfo.getUsername());
+                }
+
+                if(description != null){
+                    newUserParameters.put("description", description);
+                }
+                else{
+                    newUserParameters.put("description", oldUserInfo.getDescription());
+                }
+
+                if(timezone != null){
+                    newUserParameters.put("timezone", timezone);
+                }
+                else{
+                    newUserParameters.put("timezone", oldUserInfo.getTimezone().toString());
+                }
+
+                if(email != null){
+                    newUserParameters.put("email", email);
+                }
+                else{
+                    newUserParameters.put("email", oldUserInfo.getEmail());
+                }
+                
+                newUserInfo = new User(newUserParameters);
+            }
+            // If user wants to change password
+            else if(newpassword != null){
+                newUserParameters.put("password", newpassword);
+                
+                if(newusername != null){
+                    newUserParameters.put("username", newusername);
+                }
+                else{
+                    newUserParameters.put("username", oldUserInfo.getUsername());
+                }
+
+                if(description != null){
+                    newUserParameters.put("description", description);
+                }
+                else{
+                    newUserParameters.put("description", oldUserInfo.getDescription());
+                }
+
+                if(timezone != null){
+                    newUserParameters.put("timezone", timezone);
+                }
+                else{
+                    newUserParameters.put("timezone", oldUserInfo.getTimezone().toString());
+                }
+
+                if(email != null){
+                    newUserParameters.put("email", email);
+                }
+                else{
+                    newUserParameters.put("email", oldUserInfo.getEmail());
+                }
+                
+                newUserInfo = new User(newUserParameters);
+            }
+            
+            out.println(u_dao.update(newUserInfo, oldUserInfo));
             
         }
         catch (Exception e) { e.printStackTrace(); }
@@ -166,6 +252,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException{
         
         DAOFactory daoFactory = null;
+        BufferedReader br = null;
         
         ServletContext context = request.getServletContext();
         
@@ -182,6 +269,27 @@ public class UserServlet extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             
+            UserDAO u_dao = daoFactory.getUserDAO();
+
+            br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
+            
+            HashMap<String, String> parameters = new HashMap<>();
+            
+            String[] pairs = p.trim().split("&");
+            
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i].split("=");
+                parameters.put(pair[0], pair[1]);
+            }
+            
+            // String remoteuser = request.getRemoteUser();
+            String remoteuser = parameters.get("username");
+            
+            Integer id = u_dao.findId(remoteuser);
+            User userInfo = u_dao.find(id);
+            
+            out.println(u_dao.delete(userInfo));
             
         }
         catch (Exception e) {
