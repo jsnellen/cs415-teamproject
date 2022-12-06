@@ -51,11 +51,6 @@ public class UserServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) { 
-    }
     
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) {
