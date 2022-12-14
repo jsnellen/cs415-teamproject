@@ -27,6 +27,10 @@
               <a href="#">Delete Calendar(s)</a>
             </div>
           </div>
+              
+          <p>
+              <a href="<%= request.getContextPath() %>/main/Update-User/updateUser.jsp">Edit Profile</a>
+          </p>
         
         <p>
             <input type="button" value="Logout" onclick="window.open('<%= request.getContextPath() %>/main/logout.jsp', '_self', false);" />
