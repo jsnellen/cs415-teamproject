@@ -12,21 +12,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-3.6.1.min.js"></script>
-        <script type="text/javascript" src="scripts/script.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/userUpdate.js"></script>
     </head>
     <body>
-        <form id="updateform" name="updateform" onsubmit="">
+        <form id="updateform" name="updateform" onsubmit="updateHandler.updateUserInfo()">
             <fieldset>
                 <legend>Edit Account</legend>
                 
                 <p>
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username">
-                </p>
-                
-                <p>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password">
                 </p>
                 
                 <p>
@@ -45,14 +40,20 @@
                 </p>
                 
                 <p>
-                    <input type="submit" value="Edit Profile" tabindex="6">
+                    <input type="submit" value="Save Changes" tabindex="6">
+                    
+                    <input type="button" value="Change Password" onclick="window.open('changePassword.jsp', '_self', false);" />
+                </p>
+                
+                <p>
+                    <input type="button" value="Deactivate Account" onclick="updateHandler.deleteUserAccount()">
                 </p>
             </fieldset>
             
         </form>
         
         <p>
-            <input type="button" value="Back To Home" onclick="window.open('<%= request.getContextPath() %>/main/index.jsp', '_self', false);" />
+            <input type="button" value="Back" onclick="window.open('<%= request.getContextPath() %>/main/index.jsp', '_self', false);" />
         </p>
         
         <script>

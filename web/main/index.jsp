@@ -17,8 +17,17 @@
     
     <body>
         <p>Welcome to the CS 415 Team Project</p>
+        
+        <div>
+            <p>
+                <input type="button" value="Edit Profile" onclick="window.open('<%= request.getContextPath() %>/main/Update-User/updateUser.jsp', '_self', false);" />
+                
+                <input type="button" value="Logout" onclick="window.open('<%= request.getContextPath() %>/main/logout.jsp', '_self', false);" />
+            </p>
+
+        </div>
               
-           <div class="dropdown" style="float:left;">
+        <div class="dropdown" style="float:left;">
             <button class="dropbtn">Calendar Options</button>
             <div class="dropdown-content" style="left:0;">
               <a href="<%= request.getContextPath() %>/main/Create-Event/create_edit_event.jsp">Create/Edit Event Page</a>
@@ -26,18 +35,7 @@
               <a href="#">Create/Edit New Calendar</a>
               <a href="#">Delete Calendar(s)</a>
             </div>
-          </div>
-              
-          <p>
-              <a href="<%= request.getContextPath() %>/main/Update-User/updateUser.jsp">Edit Profile</a>
-          </p>
-        
-        <p>
-            <input type="button" value="Logout" onclick="window.open('<%= request.getContextPath() %>/main/logout.jsp', '_self', false);" />
-        </p>
-        
-       
-        
+        </div>   
     </body>
     
 </html>

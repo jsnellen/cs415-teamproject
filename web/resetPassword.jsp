@@ -5,14 +5,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-3.6.1.min.js"></script>
         <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/userCreate.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/userUpdate.js"></script>
         <title>Reset Password</title>
     </head>
     <body>
-        <form id="resetPassword" name="resetPassword" onsubmit="">
+        <form id="resetPassword" name="resetPassword" onsubmit="updateHandler.resetUserPassword()">
             <fieldset>
                 <legend>Reset Password</legend>
-                 <input id="username" name="username" type="text" placeholder="Enter Username" tabindex=1 required>
-                    
+                <p>
+                    <input id="remoteuser" name="remoteuser" type="text" placeholder="Enter Username" tabindex=1 required>
                 </p>
                 <p>
                     <input id="password" name="password" type="password" placeholder="Enter New Password" tabindex=2 required/>
@@ -30,6 +31,10 @@
         </form>
         <p id="loginRedirect">
             Remember Password? <a href="login.jsp">Log in</a>
+        </p>
+        
+        <p>
+            <a href="login.jsp">Back To Login</a>
         </p>
     </body>
 </html>

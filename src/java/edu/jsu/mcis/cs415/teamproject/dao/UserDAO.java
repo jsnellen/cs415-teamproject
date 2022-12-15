@@ -281,12 +281,6 @@ public class UserDAO {
         
         try{
             
-            System.err.println("Old User: ");
-            System.err.println(old_user.toString());
-            System.err.println();
-            System.err.println("New User: ");
-            System.err.println(new_user.toString());
-            
             // if the user wants to keep their current password
             if(oldHashedPassword.equals(newHashedPassword)){
                 // if user wants to keep current username

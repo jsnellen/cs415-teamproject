@@ -45,11 +45,8 @@ public class UserServlet extends HttpServlet {
             
             UserDAO u_dao = daoFactory.getUserDAO();
             
-            // String remoteuser = request.getRemoteUser();
-            // String username = request.getParameter("username");
             String username = request.getRemoteUser();
             
-            // int id = Integer.parseInt(request.getParameter("id"));
             int id = u_dao.findId(username);
             
             // Encode user information in JSON format and return to client
@@ -57,6 +54,7 @@ public class UserServlet extends HttpServlet {
             JSONObject json = new JSONObject();
             json.put("success", userInfo != null);
             json.put("username", userInfo.getUsername());
+            json.put("passwordhash", userInfo.getPasswordhash());
             json.put("description", userInfo.getDescription());
             json.put("timezone", userInfo.getTimezone().toString());
             json.put("email", userInfo.getEmail());
@@ -105,10 +103,20 @@ public class UserServlet extends HttpServlet {
             
             for (int i = 0; i < pairs.length; ++i) {
                 String[] pair = pairs[i].split("=");
-                parameters.put(pair[0], pair[1]);
+                if(pair.length > 1){
+                    parameters.put(pair[0], pair[1]);
+                }
+                else{
+                    parameters.put(pair[0], "");
+                }
             }
             
             String olduserid = request.getRemoteUser(); //returns user login
+            
+            if(olduserid == null){
+                olduserid = parameters.get("remoteuser");
+            }
+            
             String newusername = parameters.get("username");
             String newpassword = parameters.get("password");
             String newdescription = parameters.get("description");
@@ -242,24 +250,28 @@ public class UserServlet extends HttpServlet {
             UserDAO u_dao = daoFactory.getUserDAO();
 
             br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
             
-            HashMap<String, String> parameters = new HashMap<>();
+            if(br.readLine() != null){
+                String p = URLDecoder.decode(br.readLine().trim(), Charset.defaultCharset());
             
-            String[] pairs = p.trim().split("&");
-            
-            for (int i = 0; i < pairs.length; ++i) {
-                String[] pair = pairs[i].split("=");
-                parameters.put(pair[0], pair[1]);
+                HashMap<String, String> parameters = new HashMap<>();
+
+                String[] pairs = p.trim().split("&");
+
+                for (int i = 0; i < pairs.length; ++i) {
+                    String[] pair = pairs[i].split("=");
+                    parameters.put(pair[0], pair[1]);
+                }
             }
             
-            // String remoteuser = request.getRemoteUser();
-            String remoteuser = parameters.get("username");
+            String remoteuser = request.getRemoteUser();
             
             Integer id = u_dao.findId(remoteuser);
             User userInfo = u_dao.find(id);
             
-            out.println(u_dao.delete(userInfo));
+            JSONObject json = new JSONObject();
+            json.put("success", u_dao.delete(userInfo));
+            out.println(JSONValue.toJSONString(json));
             
         }
         catch (Exception e) {
