@@ -11,10 +11,12 @@ public class CalendarEvent {
     private ZonedDateTime start, stop;
 
     public CalendarEvent(Integer eventid, String description, ZonedDateTime start, ZonedDateTime stop) {
+        
         this.eventid = eventid;
         this.description = description;
         this.start = start;
         this.stop = stop;
+        
     }
 
     @Override

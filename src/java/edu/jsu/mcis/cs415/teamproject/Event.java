@@ -105,8 +105,16 @@ public class Event {
 
         while (!end.isBefore(current)) {
             
-            list.addAll(toCalendarEventList(current));
-            current = current.plus(1, ChronoUnit.DAYS);
+            if (( utcActive != null ) && !(utcActive.isAfter(begin)) ) {
+                
+                if (( utcInactive != null ) || (( utcInactive != null ) && !(utcInactive.isBefore(end))) ) {
+            
+                    list.addAll(toCalendarEventList(current));
+                    current = current.plus(1, ChronoUnit.DAYS);
+                    
+                }
+                
+            }
             
         }
 
@@ -324,7 +332,11 @@ public class Event {
     private List getSequence(int min, int max, int step) {
         
         List<Integer> values = new ArrayList(((max - min) / step) + 1);
-        for(int i = min; i <= max; values.add(i), i += step);
+        
+        for(int i = min; i <= max; i += step) {
+            values.add(i);
+        }
+        
         return values;
         
     }
